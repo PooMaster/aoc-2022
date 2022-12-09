@@ -42,7 +42,8 @@ per line. Each Elf separates their own inventory from the previous Elf&rsquo;s
 inventory (if any) by a blank line.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+      <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">heapq</span>
+<span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">TypeVar</span></pre></div>
     </div>
   </div>
@@ -362,7 +363,19 @@ of Calories they hold.</p>
         <a class='octothorpe' href='#section-22'>#</a>
       </div>
       <h3>Part 2:</h3>
-<p><paste in problem description here></p>
+<p>By the time you calculate the answer to the Elves&rsquo; question, they&rsquo;ve already
+realized that the Elf carrying the most Calories of food might eventually <strong>run
+out of snacks</strong>.</p>
+<p>To avoid this unacceptable situation, the Elves would instead like to know the
+total Calories carried by the <strong>top three</strong> Elves carrying the most Calories.
+That way, even if one of those Elves runs out of snacks, they still have two
+backups.</p>
+<p>In the example above, the top three Elves are the fourth Elf (with <code>24000</code>
+Calories), then the third Elf (with <code>11000</code> Calories), then the fifth Elf (with
+<code>10000</code> Calories). The sum of the Calories carried by these three elves is
+<code>45000</code>.</p>
+<p>Find the top three Elves carrying the most Calories. <strong>How many Calories are
+those Elves carrying in total?</strong></p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="n">elf_notes</span> <span class="o">=</span> <span class="n">parse_calorie_notes</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
@@ -388,10 +401,10 @@ of Calories they hold.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-24'>#</a>
       </div>
-      <p>For example:</p>
+      <h3><span id="part-2-solution:" href="part-2-solution:"> Part 2 Solution: </span></h3>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">test_part2</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -400,12 +413,11 @@ of Calories they hold.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <blockquote>
-<p><code>""</code> results in  <code>...</code>.</p>
-</blockquote>
+      <p>No big changes needed. I&rsquo;m just going to calculate the totals in the same way,
+then find the top three values using the <code>heapq</code> standard library.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">assert</span> <span class="n">part2</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="o">...</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -414,10 +426,11 @@ of Calories they hold.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-26'>#</a>
       </div>
-      <p><end of problem description></p>
+      <p>Find the top three Elves carrying the most Calories and return their
+combined total Calorie count.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">part2</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">TextIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -426,10 +439,15 @@ of Calories they hold.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-27'>#</a>
       </div>
-      <h3><span id="part-2-solution:" href="part-2-solution:"> Part 2 Solution: </span></h3>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre>    <span class="n">elf_notes</span> <span class="o">=</span> <span class="n">parse_calorie_notes</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">totals</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="n">elf_notes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">heapq</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">totals</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -437,22 +455,6 @@ of Calories they hold.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-28'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">part2</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">TextIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-    <span class="k">return</span> <span class="o">...</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-29'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-29'>#</a>
       </div>
       <p>Print out part 1 solution</p>
     </div>
@@ -462,10 +464,10 @@ of Calories they hold.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-30'>
+  <div class='section' id='section-29'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-30'>#</a>
+        <a class='octothorpe' href='#section-29'>#</a>
       </div>
       <p>Print out part 2 solution</p>
     </div>
