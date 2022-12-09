@@ -101,14 +101,16 @@ Of course, arbitrarily deciding to process all input as a text stream
 complicated things.
 """
 
+# I solved the trickiness of converting the text input stream into a nested
+# iterable by making a custom type.
 
 T = TypeVar("T")
 
 
 class InspectableIter(Generic[T]):
     """
-    Provides an iterable for `it` with a `.has_stopped` member that becomes
-    `True` once empty.
+    This class provides turns `it` into an iterable with a `.has_stopped` member
+    that latches to `True` once empty.
     """
 
     def __init__(self, it: Iterable) -> None:
