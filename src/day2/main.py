@@ -234,6 +234,8 @@ def decode_round_with_result(
     their_move = their_move_decode[their_move_str]
     intended_result = intended_result_decode[intended_result_str]
 
+    # Consider every possible move and see which one achieves the intended
+    # result
     for my_move in Move:
         considered_round = Round(my_move=my_move, their_move=their_move)
         if decide_round(considered_round) is intended_result:
@@ -243,7 +245,10 @@ def decode_round_with_result(
 
 
 def part2(input: TextIO) -> int:
-    """ """
+    """
+    Calculate the total score that would result if the strategy guide was
+    followed using the new interpretation.
+    """
     return sum(score_round(decode_round_with_result(line.strip())) for line in input)
 
 
