@@ -218,11 +218,13 @@ The parsing function knows the round result but throws it away since part 1's
 round scoring function has to determine it anyway.
 """
 
+ResultDecoder = dict[str, RoundResult]
+
 
 def decode_round_with_result(
     strat_str: str,
     their_move_decode: MoveDecoder = their_move_decode,
-    intended_result_decode: dict[str, RoundResult] = intended_result_decode,
+    intended_result_decode: ResultDecoder = intended_result_decode,
 ) -> Round:
     """
     Parse and decode the move and result info from a strategy guide line and
