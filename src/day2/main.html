@@ -63,6 +63,20 @@ Paper, or Scissors using a hand shape.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Round</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">my_move</span><span class="p">:</span> <span class="n">Move</span>
+    <span class="n">their_move</span><span class="p">:</span> <span class="n">Move</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
       <p>Then, a winner for that round is
 selected: Rock defeats Scissors, Scissors defeats Paper, and Paper defeats
 Rock. If both players choose the same shape, the round instead ends in a draw.</p>
@@ -76,10 +90,10 @@ Rock. If both players choose the same shape, the round instead ends in a draw.</
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-4'>
+  <div class='section' id='section-5'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-4'>#</a>
+        <a class='octothorpe' href='#section-5'>#</a>
       </div>
       <p>Appreciative of your help yesterday, one Elf gives you an <strong>encrypted strategy
 guide</strong> (your puzzle input) that they say will be sure to help you win. &ldquo;The
@@ -96,10 +110,10 @@ away to help with someone&rsquo;s tent.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-5'>
+  <div class='section' id='section-6'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-5'>#</a>
+        <a class='octothorpe' href='#section-6'>#</a>
       </div>
       <p>The second column, you reason, must be what you should play in response: <code>X</code>
 for Rock, <code>Y</code> for Paper, and <code>Z</code> for Scissors. Winning every time would be
@@ -114,10 +128,10 @@ suspicious, so the responses must have been carefully chosen.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-6'>
+  <div class='section' id='section-7'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
+        <a class='octothorpe' href='#section-7'>#</a>
       </div>
       <p>The winner of the whole tournament is the player with the highest score. Your
 <strong>total score</strong> is the sum of your scores for each round. The score for a
@@ -130,10 +144,10 @@ if you lost, 3 if the round was a draw, and 6 if you won).</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-7'>
+  <div class='section' id='section-8'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-7'>#</a>
+        <a class='octothorpe' href='#section-8'>#</a>
       </div>
       
     </div>
@@ -145,10 +159,10 @@ if you lost, 3 if the round was a draw, and 6 if you won).</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-8'>
+  <div class='section' id='section-9'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-8'>#</a>
+        <a class='octothorpe' href='#section-9'>#</a>
       </div>
       <p>Since you can&rsquo;t be sure if the Elf is trying to help you or trick you, you
 should calculate the score you would get if you were to follow the strategy
@@ -159,10 +173,10 @@ guide.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-9'>
+  <div class='section' id='section-10'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-9'>#</a>
+        <a class='octothorpe' href='#section-10'>#</a>
       </div>
       <p>For example, suppose you were given the following strategy guide:</p>
 <pre><code>A Y
@@ -176,10 +190,10 @@ C Z
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-10'>
+  <div class='section' id='section-11'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-10'>#</a>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       
     </div>
@@ -188,10 +202,10 @@ C Z
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-11'>
+  <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <blockquote>
 <p>In the first round, your opponent will choose Rock (A), and you should
@@ -204,10 +218,10 @@ C Z
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
+  <div class='section' id='section-13'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
+        <a class='octothorpe' href='#section-13'>#</a>
       </div>
       <blockquote>
 <p>In the second round, your opponent will choose Paper (B), and you should
@@ -219,10 +233,10 @@ C Z
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-14'>#</a>
       </div>
       <blockquote>
 <p>The third round is a draw with both players choosing Scissors, giving
@@ -234,10 +248,10 @@ C Z
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-14'>
+  <div class='section' id='section-15'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-14'>#</a>
+        <a class='octothorpe' href='#section-15'>#</a>
       </div>
       <p>In this example, if you were to follow the strategy guide, you would get a total
 score of <code>15</code> (8 + 1 + 6).</p>
@@ -249,29 +263,15 @@ strategy guide?</strong></p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
-      </div>
-      <h3><span id="part-1-solution:" href="part-1-solution:"> Part 1 Solution: </span></h3>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="n">MoveDecoder</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Move</span><span class="p">]</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-16'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-16'>#</a>
       </div>
-      
+      <h3><span id="part-1-solution:" href="part-1-solution:"> Part 1 Solution: </span></h3>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Round</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="n">my_move</span><span class="p">:</span> <span class="n">Move</span>
-    <span class="n">their_move</span><span class="p">:</span> <span class="n">Move</span></pre></div>
+      <div class="highlight"><pre><span class="n">MoveDecoder</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Move</span><span class="p">]</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
