@@ -22,6 +22,11 @@ class Move(Enum):
     scissors = 3
 
 
+class Round(NamedTuple):
+    my_move: Move
+    their_move: Move
+
+
 # Then, a winner for that round is
 # selected: Rock defeats Scissors, Scissors defeats Paper, and Paper defeats
 # Rock. If both players choose the same shape, the round instead ends in a draw.
@@ -109,11 +114,6 @@ strategy guide?**
 
 
 MoveDecoder = dict[str, Move]
-
-
-class Round(NamedTuple):
-    my_move: Move
-    their_move: Move
 
 
 def decode_round(
