@@ -214,7 +214,7 @@ then find the <code>max()</code> of the <code>sum()</code>s.</p>
 complicated things.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -223,11 +223,11 @@ complicated things.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-12'>#</a>
       </div>
-      <p>Provides an iterable for <code>it</code> with a <code>.has_stopped</code> member that becomes
-<code>True</code> once empty.</p>
+      <p>I solved the trickiness of converting the text input stream into a nested
+iterable by making a custom type.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">InspectableIter</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span></pre></div>
+      <div class="highlight"><pre><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -236,10 +236,11 @@ complicated things.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-13'>#</a>
       </div>
-      
+      <p>This class provides turns <code>it</code> into an iterable with a <code>.has_stopped</code> member
+that latches to <code>True</code> once empty.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">InspectableIter</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -251,9 +252,7 @@ complicated things.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">has_stopped</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">it</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -265,8 +264,9 @@ complicated things.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_stopped</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">it</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -274,6 +274,19 @@ complicated things.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
       </div>
       
     </div>
@@ -287,10 +300,10 @@ complicated things.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-17'>
+  <div class='section' id='section-18'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-17'>#</a>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       <p>Parse the noted Calorie amounts from the multiline string input and return
 the total as a list of list of Calorie counts.</p>
@@ -300,10 +313,10 @@ the total as a list of list of Calorie counts.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       
     </div>
@@ -312,10 +325,10 @@ the total as a list of list of Calorie counts.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       <p>Yields lines as ints until a blank line is found.</p>
 <p>Equivalent to <code>map(int, iter(it.__next__, ""))</code>.</p>
@@ -325,10 +338,10 @@ the total as a list of list of Calorie counts.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       
     </div>
@@ -344,10 +357,10 @@ the total as a list of list of Calorie counts.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       <p>Find the elf that holds the most amount of Calories, and return the amount
 of Calories they hold.</p>
@@ -357,10 +370,10 @@ of Calories they hold.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <h3>Part 2:</h3>
 <p>By the time you calculate the answer to the Elves&rsquo; question, they&rsquo;ve already
@@ -384,24 +397,12 @@ those Elves carrying in total?</strong></p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-23'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-24'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-24'>#</a>
       </div>
-      <h3><span id="part-2-solution:" href="part-2-solution:"> Part 2 Solution: </span></h3>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -413,8 +414,7 @@ those Elves carrying in total?</strong></p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p>No big changes needed. I&rsquo;m just going to calculate the totals in the same way,
-then find the top three values using the <code>heapq</code> standard library.</p>
+      <h3><span id="part-2-solution:" href="part-2-solution:"> Part 2 Solution: </span></h3>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -426,6 +426,19 @@ then find the top three values using the <code>heapq</code> standard library.</p
       <div class='octowrap'>
         <a class='octothorpe' href='#section-26'>#</a>
       </div>
+      <p>No big changes needed. I&rsquo;m just going to calculate the totals in the same way,
+then find the top three values using the <code>heapq</code> standard library.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
       <p>Find the top three Elves carrying the most Calories and return their
 combined total Calorie count.</p>
     </div>
@@ -434,10 +447,10 @@ combined total Calorie count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-27'>
+  <div class='section' id='section-28'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-27'>#</a>
+        <a class='octothorpe' href='#section-28'>#</a>
       </div>
       
     </div>
@@ -451,10 +464,10 @@ combined total Calorie count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-28'>
+  <div class='section' id='section-29'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-28'>#</a>
+        <a class='octothorpe' href='#section-29'>#</a>
       </div>
       <p>Print out part 1 solution</p>
     </div>
@@ -464,10 +477,10 @@ combined total Calorie count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-29'>
+  <div class='section' id='section-30'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-29'>#</a>
+        <a class='octothorpe' href='#section-30'>#</a>
       </div>
       <p>Print out part 2 solution</p>
     </div>
