@@ -41,8 +41,7 @@ def test_part1() -> None:
     with the following list:
     """
 
-    input = io.StringIO(
-        """\
+    input = """\
         1000
         2000
         3000
@@ -57,9 +56,8 @@ def test_part1() -> None:
         9000
 
         10000"""  # pycco needs this comment
-    )
 
-    elf_notes = iter(parse_calorie_notes(input))
+    elf_notes = iter(parse_calorie_notes(io.StringIO(input)))
 
     # This list represents the Calories of the food carried by five Elves:
 
@@ -96,7 +94,10 @@ carrying?
 
 """
 Solution seems straightforward. Parse the input into a list of list of `int`s,
-then find the `max()` with `sum()` as the key.
+then find the `max()` of the `sum()`s.
+
+Of course, arbitrarily deciding to process all input as a text stream
+complicated things.
 """
 
 
