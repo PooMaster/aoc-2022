@@ -31,6 +31,7 @@ inventory (if any) by a blank line.
 """
 
 
+import heapq
 import io
 from typing import Generic, Iterable, Iterator, TextIO, TypeVar
 
@@ -160,26 +161,40 @@ def part1(input: TextIO) -> int:
 """
 ### Part 2:
 
-<paste in problem description here>
-"""
+By the time you calculate the answer to the Elves' question, they've already
+realized that the Elf carrying the most Calories of food might eventually **run
+out of snacks**.
 
+To avoid this unacceptable situation, the Elves would instead like to know the
+total Calories carried by the **top three** Elves carrying the most Calories.
+That way, even if one of those Elves runs out of snacks, they still have two
+backups.
 
-def test_part2() -> None:
-    """For example:"""
-    # > `""` results in  `...`.
-    assert part2(io.StringIO("")) == ...
+In the example above, the top three Elves are the fourth Elf (with `24000`
+Calories), then the third Elf (with `11000` Calories), then the fifth Elf (with
+`10000` Calories). The sum of the Calories carried by these three elves is
+`45000`.
 
-
-"""
-<end of problem description>
+Find the top three Elves carrying the most Calories. **How many Calories are
+those Elves carrying in total?**
 """
 
 # === Part 2 Solution: ===
 
+"""
+No big changes needed. I'm just going to calculate the totals in the same way,
+then find the top three values using the `heapq` standard library.
+"""
 
-def part2(input: TextIO) -> ...:
-    """ """
-    return ...
+
+def part2(input: TextIO) -> int:
+    """
+    Find the top three Elves carrying the most Calories and return their
+    combined total Calorie count.
+    """
+    elf_notes = parse_calorie_notes(input)
+    totals: Iterable[int] = map(sum, elf_notes)
+    return sum(heapq.nlargest(3, totals))
 
 
 if __name__ == "__main__":
