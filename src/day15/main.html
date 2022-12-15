@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>main.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>main.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">dropwhile</span><span class="p">,</span> <span class="n">pairwise</span><span class="p">,</span> <span class="n">takewhile</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">TextIO</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Pos</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Sensor</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">pos</span><span class="p">:</span> <span class="n">Pos</span>
+    <span class="n">nearest_beacon</span><span class="p">:</span> <span class="n">Pos</span>
+
+
+<span class="n">Range</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>This class maintains a set of ranges. Each range is a contiguous block of
+integers, which are each specified by the first and last integer present in
+that block. The internal
+datastructure is kept simplified.</p>
+<p>For example:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>RangeSet([(3, 5), (7, 8)])
+RangeSet([(3, 5), (7, 8)])</p>
+<p>RangeSet([(3, 7), (5, 8)])
+RangeSet([(3, 8)])</p>
+</blockquote>
+</blockquote>
+</blockquote>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">RangeSet</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ranges</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Range</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Range</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ranges</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>More subranges can be added with the .add() method.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">range</span><span class="p">:</span> <span class="n">Range</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">assert</span> <span class="nb">range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nb">range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;Bad range :( </span><span class="si">{</span><span class="nb">range</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">range</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simplify</span><span class="p">())</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;RangeSet&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ranges</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="s2">&quot;Return the number of ints represented by this RangeSet&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">:</span>
+            <span class="n">first</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">yield from</span> <span class="nb">range</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Range</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>TODO check case of [1, 5], [1, 3]</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">prev_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">next_range</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">if</span> <span class="n">prev_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">next_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>The end of one range is at least touching the next range, so merge</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">prev_range</span> <span class="o">=</span> <span class="n">prev_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">prev_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">next_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>There is a proper gap now, so yield out this range</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="k">yield</span> <span class="n">prev_range</span>
+                <span class="n">prev_range</span> <span class="o">=</span> <span class="n">next_range</span>
+
+        <span class="k">yield</span> <span class="n">prev_range</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Return the RangeSet that results from removing all of self&rsquo;s ranges from
+the min_max_range.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">inverse_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_max_range</span><span class="p">:</span> <span class="n">Range</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;RangeSet&quot;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">def</span> <span class="nf">inverse_ranges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Range</span><span class="p">]:</span>
+            <span class="s2">&quot;Generate the ranges that come between all the others&quot;</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">min_max_range</span>
+
+            <span class="n">first_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">first_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span class="p">([</span><span class="n">min_max_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">first_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+
+            <span class="k">for</span> <span class="nb">range</span><span class="p">,</span> <span class="n">next_range</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="nb">range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">next_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="n">last_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">last_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="nb">max</span><span class="p">([</span><span class="n">last_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">def</span> <span class="nf">restrict_ranges</span><span class="p">(</span><span class="n">ranges</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Range</span><span class="p">]:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">def</span> <span class="nf">too_far_left</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">Range</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">def</span> <span class="nf">not_too_far_right</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">Range</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">ranges</span><span class="p">)</span>
+            <span class="n">unclipped_ranges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">takewhile</span><span class="p">(</span><span class="n">not_too_far_right</span><span class="p">,</span> <span class="n">dropwhile</span><span class="p">(</span><span class="n">too_far_left</span><span class="p">,</span> <span class="n">it</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">unclipped_ranges</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">unclipped_ranges</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>Clip first range</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">unclipped_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">unclipped_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">unclipped_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>Clip last range</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">unclipped_ranges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">unclipped_ranges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span class="p">(</span><span class="n">unclipped_ranges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">min_max_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> 
+
+            <span class="k">return</span> <span class="n">unclipped_ranges</span>
+
+        <span class="k">return</span> <span class="n">RangeSet</span><span class="p">(</span><span class="n">restrict_ranges</span><span class="p">(</span><span class="n">inverse_ranges</span><span class="p">()))</span>
+
+
+<span class="n">INT</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;-?\d+&quot;</span>
+<span class="n">LINE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;Sensor at x=(</span><span class="si">{</span><span class="n">INT</span><span class="si">}</span><span class="s2">), y=(</span><span class="si">{</span><span class="n">INT</span><span class="si">}</span><span class="s2">): closest beacon is at x=(</span><span class="si">{</span><span class="n">INT</span><span class="si">}</span><span class="s2">), y=(</span><span class="si">{</span><span class="n">INT</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">parse_sensors</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">TextIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Sensor</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="o">:=</span> <span class="n">LINE_PATTERN</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">sensor_x</span><span class="p">,</span> <span class="n">sensor_y</span><span class="p">,</span> <span class="n">beacon_x</span><span class="p">,</span> <span class="n">beacon_y</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="k">yield</span> <span class="n">Sensor</span><span class="p">(</span><span class="n">Pos</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sensor_x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor_y</span><span class="p">)),</span> <span class="n">Pos</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beacon_x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">beacon_y</span><span class="p">)))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">manhattan_distance</span><span class="p">(</span><span class="n">pos1</span><span class="p">:</span> <span class="n">Pos</span><span class="p">,</span> <span class="n">pos2</span><span class="p">:</span> <span class="n">Pos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos1</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">pos2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos1</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">pos2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_cover_set</span><span class="p">(</span><span class="n">sensors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Sensor</span><span class="p">],</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">cover_set</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">([])</span>
+    <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="n">sensors</span><span class="p">:</span>
+        <span class="n">cover_distance</span> <span class="o">=</span> <span class="n">manhattan_distance</span><span class="p">(</span><span class="n">sensor</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">sensor</span><span class="o">.</span><span class="n">nearest_beacon</span><span class="p">)</span>
+        <span class="n">row_cover_radius</span> <span class="o">=</span> <span class="n">cover_distance</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sensor</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">row</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">row_cover_radius</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">row_cover_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">sensor</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">row_cover_radius</span><span class="p">,</span> <span class="n">sensor</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">row_cover_radius</span><span class="p">)</span>
+        <span class="n">cover_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row_cover_range</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cover_set</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">count_covered_locations</span><span class="p">(</span><span class="n">sensors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Sensor</span><span class="p">],</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>For each sensor, find the range that it covered on the given row. Then
+throw all of those into a RangeSet. Then use the RangeSet to quickly count
+the number of positions covered by sensors.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">rset</span> <span class="o">=</span> <span class="n">get_cover_set</span><span class="p">(</span><span class="n">sensors</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">rset</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>def test_part1():
+    sensors = list(parse_sensors(io.StringIO(EXAMPLE_INPUT)))
+    assert len(sensors) == 14</p>
+<pre><code>assert manhattan_distance(sensors[6].pos, sensors[6].nearest_beacon) == 9
+
+assert RangeSet([(3, 7), (5, 8)]).ranges == [(3, 8)]
+assert RangeSet([(1, 5), (1, 3)]).ranges == [(1, 5)]
+
+assert count_covered_locations([Sensor(Pos(8, 7), Pos(2, 10))], 10) == 13
+</code></pre>
+<p>def test_part2():
+    sensors = list(parse_sensors(io.StringIO(EXAMPLE_INPUT)))
+    for pos in find_uncovered_positions(sensors, (0, 20), (0, 20)):
+        print(pos)</p>
+<p>def part1(input: TextIO) -&gt; int:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">find_uncovered_positions</span><span class="p">(</span><span class="n">sensors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Sensor</span><span class="p">],</span> <span class="n">x_range</span><span class="p">:</span> <span class="n">Range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">:</span> <span class="n">Range</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Pos</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">cover_set</span> <span class="o">=</span> <span class="n">get_cover_set</span><span class="p">(</span><span class="n">sensors</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">uncovered_set</span> <span class="o">=</span> <span class="n">cover_set</span><span class="o">.</span><span class="n">inverse_of</span><span class="p">(</span><span class="n">x_range</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">uncovered_set</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">Pos</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+
+<span class="n">EXAMPLE_INPUT</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">Sensor at x=2, y=18: closest beacon is at x=-2, y=15</span>
+<span class="s2">Sensor at x=9, y=16: closest beacon is at x=10, y=16</span>
+<span class="s2">Sensor at x=13, y=2: closest beacon is at x=15, y=3</span>
+<span class="s2">Sensor at x=12, y=14: closest beacon is at x=10, y=16</span>
+<span class="s2">Sensor at x=10, y=20: closest beacon is at x=10, y=16</span>
+<span class="s2">Sensor at x=14, y=17: closest beacon is at x=10, y=16</span>
+<span class="s2">Sensor at x=8, y=7: closest beacon is at x=2, y=10</span>
+<span class="s2">Sensor at x=2, y=0: closest beacon is at x=2, y=10</span>
+<span class="s2">Sensor at x=0, y=11: closest beacon is at x=2, y=10</span>
+<span class="s2">Sensor at x=20, y=14: closest beacon is at x=25, y=17</span>
+<span class="s2">Sensor at x=17, y=20: closest beacon is at x=21, y=22</span>
+<span class="s2">Sensor at x=16, y=7: closest beacon is at x=15, y=3</span>
+<span class="s2">Sensor at x=14, y=3: closest beacon is at x=15, y=3</span>
+<span class="s2">Sensor at x=20, y=1: closest beacon is at x=15, y=3</span>
+<span class="s2">#DIVIDER</span>
+<span class="s2">    From the given sensor input text, output the number of positions on row</span>
+<span class="s2">    y=2000000 where a hidden beacon could possibly be found.</span>
+<span class="s2">#DIVIDER</span>
+<span class="s2">    From the given sensor input text, output the number of positions on row</span>
+<span class="s2">    y=2000000 where a hidden beacon could possibly be found.</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      <p>sensors = list(parse_sensors(input))
+covered_locations = count_covered_locations(sensors, 2000000)
+known_beacons = set(sensor.nearest_beacon for sensor in sensors)
+known_beacons_in_row = sum(1 for beacon in known_beacons if beacon.y == 2000000)
+return covered_locations - known_beacons_in_row</p>
+<p>def part2(input: TextIO) -&gt; int:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p>frequency = 0
+sensors = list(parse_sensors(input))
+for pos in find_uncovered_positions(sensors, (0, 4000000), (0, 4000000)):
+    frequency = pos.x * 4000000 + pos.y
+    print(f&rdquo;Maybe beacon at {pos} with frequency {frequency}&rdquo;)
+return frequency</p>
+<p>if <strong>name</strong> == &ldquo;<strong>main</strong>&rdquo;:</p>
+<h1>Print out part 1 solution</h1>
+<h1>test_part1()</h1>
+<h1>test_part2()</h1>
+<p>with open(&ldquo;input.txt&rdquo;) as puzzle_input:
+    print(&ldquo;Part 1:&rdquo;, part1(puzzle_input))</p>
+<p>with open(&ldquo;input.txt&rdquo;) as puzzle_input:
+    print(&ldquo;Part 2:&rdquo;, part2(puzzle_input))</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
